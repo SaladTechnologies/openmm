@@ -1,0 +1,5 @@
+FROM saladtechnologies/openmm:cuda11.8
+
+COPY simulation.py /workspaces/openmm/simulation.py
+
+ENTRYPOINT ["python", "/workspaces/openmm/simulation.py"]
