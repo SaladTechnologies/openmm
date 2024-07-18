@@ -18,21 +18,21 @@ Header: `Kelpie-Api-Key: <your-api-key>`
   "command": "python",
   "arguments": [
     "/workspaces/openmm/simulation.py",
-    "--input_pdb", "input.pdb",
+    "--input_pdb", "/workspaces/openmm/sim-data/input.pdb",
     "--force_fields", "amber14-all.xml", "amber14/tip3pfb.xml",
     "--nonbonded_cutoff_nm", "1",
     "--temperature_k", "300",
     "--friction_coeff_ps", "1",
     "--step_size_ps", "0.004",
-    "--checkpoint_steps", "1000",
-    "--total_steps", "10000"
+    "--checkpoint_steps", "10000",
+    "--total_steps", "100000"
   ],
   "sync": {
     "before": [
       {
         "bucket": "my-simulation-bucket",
         "prefix": "some-job-id/",
-        "local_path": "/workspaces/openmm/",
+        "local_path": "/workspaces/openmm/sim-data/",
         "direction": "download"
       }
     ],
@@ -40,7 +40,7 @@ Header: `Kelpie-Api-Key: <your-api-key>`
       {
         "bucket": "my-simulation-bucket",
         "prefix": "some-job-id/",
-        "local_path": "/workspaces/openmm/",
+        "local_path": "/workspaces/openmm/sim-data/",
         "direction": "upload",
         "pattern": "checkpoint\\.chk"
       }
@@ -49,7 +49,7 @@ Header: `Kelpie-Api-Key: <your-api-key>`
       {
         "bucket": "my-simulation-bucket",
         "prefix": "some-job-id/",
-        "local_path": "/workspaces/openmm/",
+        "local_path": "/workspaces/openmm/sim-data/",
         "direction": "upload",
         "pattern": "final_state\\.pdb"
       }
@@ -58,3 +58,19 @@ Header: `Kelpie-Api-Key: <your-api-key>`
   "container_group_id": "your-container-group-id",
 }
 ```
+
+Let's go over the parts of this payload, and how they map to our simulation script.
+
+- `command` and `arguments` are the command and arguments to run in the container. In this case, we're running a Python script at `/workspaces/openmm/simulation.py`, and passing in a bunch of arguments. This is the equivalent of running the following bash command in your terminal:
+  
+  ```bash
+  python /workspaces/openmm/simulation.py \
+  --input_pdb /workspaces/openmm/sim-data/input.pdb \
+  --force_fields amber14-all.xml amber14/tip3pfb.xml \
+  --nonbonded_cutoff_nm 1 \
+  --temperature_k 300 \
+  --friction_coeff_ps 1 \
+  --step_size_ps 0.004 \
+  --checkpoint_steps 10000 \
+  --total_steps 100000
+  ```
