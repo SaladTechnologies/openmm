@@ -12,6 +12,7 @@ See the [example dockerfile](./Dockerfile.example) for a simple example of how t
 Once you've got your docker image built, and deployed to a Salad Container Group, you can run a simulation by submitting a job to the Kelpie API. This assumes your bucket is already set up and named `my-simulation-bucket`. Adjust all the paths and arguments as needed.
 
 **POST https://kelpie.saladexamples.com/jobs**
+
 Header: `Kelpie-Api-Key: <your-api-key>`
 ```json
 {
@@ -74,3 +75,5 @@ Let's go over the parts of this payload, and how they map to our simulation scri
   --checkpoint_steps 10000 \
   --total_steps 100000
   ```
+
+  In our simulation script, we've used the `argparse` library to parse these arguments. You can see how we've done this in the [example simulation script](./simulation.py#L75-L120).
