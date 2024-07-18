@@ -4,13 +4,18 @@ from openmm.unit import nanometer, kelvin, picosecond, picoseconds
 from sys import stdout
 import argparse
 from typing import List
+import os
 
 # We're going to always save checkpoints to the same file
-checkpoint_file = "checkpoint.chk"
-output_file = "final_state.pdb"
+data_dir = os.path.join(os.path.dirname(__file__), "sim-data")
+os.makedirs(data_dir, exist_ok=True)
+checkpoint_file = os.path.join(data_dir, "checkpoint.chk")
+output_file = os.path.join(data_dir, "final_state.pdb")
 
 # We're going to define a function that will run the simulation according
 # to the parameters we pass in
+
+
 def run_simulation(
     input_pdb: str,
     force_fields: List[str],
@@ -35,7 +40,7 @@ def run_simulation(
         step_size_ps * picoseconds,
     )
     simulation = Simulation(pdb.topology, system, integrator)
-    
+
     # We're going to check if a checkpoint file exists, and if it does, we're going to
     # load the simulation from that checkpoint. If it doesn't, we're going to start a new
     # simulation
@@ -54,19 +59,22 @@ def run_simulation(
             stdout, checkpoint_steps, step=True, potentialEnergy=True, temperature=True
         )
     )
-    simulation.reporters.append(CheckpointReporter(checkpoint_file, checkpoint_steps))
+    simulation.reporters.append(CheckpointReporter(
+        checkpoint_file, checkpoint_steps))
     print(f"Running simulation for {steps_remaining} steps")
     simulation.step(steps_remaining)
-    
+
     # We're going to save the final state of the simulation to a PDB file
     positions = simulation.context.getState(getPositions=True).getPositions()
     with open(output_file, "w") as f:
         PDBFile.writeFile(simulation.topology, positions, f)
 
+
 # We're going to define an argument parser to parse the command line arguments.
 # This will let us run this script in a customizable way.
 parser = argparse.ArgumentParser()
-parser.add_argument("--input_pdb", type=str, help="Input PDB file", required=True)
+parser.add_argument("--input_pdb", type=str,
+                    help="Input PDB file", required=True)
 parser.add_argument(
     "--force_fields",
     type=str,

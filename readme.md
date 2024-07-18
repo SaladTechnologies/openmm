@@ -55,6 +55,6 @@ Header: `Kelpie-Api-Key: <your-api-key>`
       }
     ]
   },
-  "container_group_id": "aa283fda-94f6-4a01-a47b-ca9ef01ebc0f",
+  "container_group_id": "your-container-group-id",
 }
 ```

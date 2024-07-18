@@ -1,0 +1,27 @@
+services:
+  openmm:
+    image: saladtechnologies/openmm:kelpie-example
+    build:
+      context: .
+      dockerfile: Dockerfile.example
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    environment:
+      # We use R2, which is s3-compatible storage
+      - AWS_ENDPOINT_URL
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_DEFAULT_REGION
+      # Kelpie API
+      - KELPIE_API_KEY
+      - KELPIE_API_URL=https://kelpie.saladexamples.com
+
+      # In production, these environment variables are set
+      # automatically by Salad's infrastructure.
+      - SALAD_CONTAINER_GROUP_ID=local-testing
+      - SALAD_MACHINE_ID=local-testing1
