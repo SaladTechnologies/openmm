@@ -36,6 +36,8 @@ See the [example dockerfile](./Dockerfile.example) for a simple example of how t
 
 ### Example Kelpie Job
 
+[Kelpie](https://github.com/SaladTechnologies/kelpie) is an open-source job orchestration system that can manage large batches of long-running jobs on Salad's infrastructure.
+
 Once you've got your docker image built, and deployed to a Salad Container Group, you can run a simulation by submitting a job to the Kelpie API. This assumes your bucket is already set up and named `my-simulation-bucket`. Adjust all the paths and arguments as needed.
 
 **POST https://kelpie.saladexamples.com/jobs**
