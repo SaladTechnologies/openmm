@@ -3,6 +3,33 @@
 This repo builds a docker image with OpenMM and CUDA, using miniconda.
 See [available tags.](https://hub.docker.com/r/saladtechnologies/openmm/tags)
 
+**Run it Locally**
+
+```bash
+docker run --gpus all --rm -it saladtechnologies/openmm:cuda11.8
+```
+
+You should see something like this:
+
+```
+OpenMM Version: 8.1.1
+Git Revision: ec797acabe5de4ce9f56c92d349baa889f4b0821
+
+There are 3 Platforms available:
+
+1 Reference - Successfully computed forces
+2 CPU - Successfully computed forces
+3 CUDA - Successfully computed forces
+
+Median difference in forces between platforms:
+
+Reference vs. CPU: 6.2966e-06
+Reference vs. CUDA: 6.7376e-06
+CPU vs. CUDA: 7.38656e-07
+
+All differences are within tolerance.
+```
+
 ## Example Usage
 
 See the [example dockerfile](./Dockerfile.example) for a simple example of how to run custom simulations based on this image.
